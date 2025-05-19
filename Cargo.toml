@@ -8,3 +8,4 @@ gtk4 = { version = "0.4", features = ["v4_6"] }
 libadwaita = { version = "0.1" }
 glib = "0.15"
 once_cell = "1.21.3"
+dbus = "0.9.7"
