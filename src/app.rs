@@ -9,7 +9,7 @@ pub fn run() {
 
     app.connect_activate(|app| {
         let main_window = main_window::MainWindow::new(app);
-        main_window.show();
+        main_window.present();
     });
 
     app.run();
