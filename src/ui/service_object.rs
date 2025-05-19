@@ -2,7 +2,6 @@ use gtk4::glib;
 use gtk4::subclass::prelude::*;
 use gtk4::glib::prelude::*;
 
-// Define a single mod imp
 mod imp {
     use super::*;
 
@@ -10,9 +9,9 @@ mod imp {
     pub struct ServiceObject {
         pub name: std::cell::RefCell<String>,
         pub status: std::cell::RefCell<String>,
-        pub description: std::cell::RefCell<String>, // New
-        pub load_state: std::cell::RefCell<String>,  // New
-        pub sub_state: std::cell::RefCell<String>,   // New
+        pub description: std::cell::RefCell<String>, 
+        pub load_state: std::cell::RefCell<String>,
+        pub sub_state: std::cell::RefCell<String>, 
     }
 
     #[glib::object_subclass]
@@ -49,14 +48,14 @@ mod imp {
                         glib::ParamFlags::READWRITE,
                     ),
                     glib::ParamSpecString::new(
-                        "load-state", // Changed from "load_state"
+                        "load-state", 
                         "LoadState",
                         "Service Load State",
                         None,
                         glib::ParamFlags::READWRITE,
                     ),
                     glib::ParamSpecString::new(
-                        "sub-state", // Changed from "sub_state"
+                        "sub-state", 
                         "SubState",
                         "Service Sub State",
                         None,
@@ -87,11 +86,11 @@ mod imp {
                     let description: String = value.get().expect("Type conformity checked by `Object::set_property`.");
                     self.description.borrow_mut().replace_range(.., &description);
                 }
-                "load-state" => { // Changed from "load_state"
+                "load-state" => { 
                     let load_state: String = value.get().expect("Type conformity checked by `Object::set_property`.");
                     self.load_state.borrow_mut().replace_range(.., &load_state);
                 }
-                "sub-state" => { // Changed from "sub_state"
+                "sub-state" => { 
                     let sub_state: String = value.get().expect("Type conformity checked by `Object::set_property`.");
                     self.sub_state.borrow_mut().replace_range(.., &sub_state);
                 }
@@ -104,28 +103,26 @@ mod imp {
                 "name" => self.name.borrow().clone().to_value(),
                 "status" => self.status.borrow().clone().to_value(),
                 "description" => self.description.borrow().clone().to_value(),
-                "load-state" => self.load_state.borrow().clone().to_value(), // Changed from "load_state"
-                "sub-state" => self.sub_state.borrow().clone().to_value(), // Changed from "sub_state"
+                "load-state" => self.load_state.borrow().clone().to_value(), 
+                "sub-state" => self.sub_state.borrow().clone().to_value(),
                 _ => unimplemented!(),
             }
         }
     }
 }
 
-// Define the ServiceObject wrapper only once
 glib::wrapper! {
     pub struct ServiceObject(ObjectSubclass<imp::ServiceObject>);
 }
 
 impl ServiceObject {
-    pub fn new(name: &str, status: &str, description: &str, load_state: &str, sub_state: &str) -> Self { // Updated signature
-        // Fixed property setting format
+    pub fn new(name: &str, status: &str, description: &str, load_state: &str, sub_state: &str) -> Self { 
         glib::Object::builder::<Self>()
             .property("name", name)
             .property("status", status)
             .property("description", description)
-            .property("load-state", load_state) // Changed from "load_state"
-            .property("sub-state", sub_state) // Changed from "sub_state"
+            .property("load-state", load_state) 
+            .property("sub-state", sub_state) 
             .build()
             .expect("Failed to create ServiceObject")
     }
