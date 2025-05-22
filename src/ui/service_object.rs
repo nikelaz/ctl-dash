@@ -12,6 +12,7 @@ mod imp {
         pub description: std::cell::RefCell<String>, 
         pub load_state: std::cell::RefCell<String>,
         pub sub_state: std::cell::RefCell<String>, 
+        pub enabled_state: std::cell::RefCell<String>, // New field
     }
 
     #[glib::object_subclass]
@@ -61,6 +62,14 @@ mod imp {
                         None,
                         glib::ParamFlags::READWRITE,
                     ),
+                    // New property for enabled_state
+                    glib::ParamSpecString::new(
+                        "enabled-state",
+                        "EnabledState",
+                        "Service Enabled State",
+                        None,
+                        glib::ParamFlags::READWRITE,
+                    ),
                 ]
             });
             PROPERTIES.as_ref()
@@ -94,6 +103,11 @@ mod imp {
                     let sub_state: String = value.get().expect("Type conformity checked by `Object::set_property`.");
                     self.sub_state.borrow_mut().replace_range(.., &sub_state);
                 }
+                // Handle setting enabled_state
+                "enabled-state" => {
+                    let enabled_state: String = value.get().expect("Type conformity checked by `Object::set_property`.");
+                    self.enabled_state.borrow_mut().replace_range(.., &enabled_state);
+                }
                 _ => unimplemented!(),
             }
         }
@@ -105,6 +119,8 @@ mod imp {
                 "description" => self.description.borrow().clone().to_value(),
                 "load-state" => self.load_state.borrow().clone().to_value(), 
                 "sub-state" => self.sub_state.borrow().clone().to_value(),
+                // Handle getting enabled_state
+                "enabled-state" => self.enabled_state.borrow().clone().to_value(),
                 _ => unimplemented!(),
             }
         }
@@ -116,13 +132,15 @@ glib::wrapper! {
 }
 
 impl ServiceObject {
-    pub fn new(name: &str, status: &str, description: &str, load_state: &str, sub_state: &str) -> Self { 
+    // Update new function to accept enabled_state
+    pub fn new(name: &str, status: &str, description: &str, load_state: &str, sub_state: &str, enabled_state: &str) -> Self { 
         glib::Object::builder::<Self>()
             .property("name", name)
             .property("status", status)
             .property("description", description)
             .property("load-state", load_state) 
             .property("sub-state", sub_state) 
+            .property("enabled-state", enabled_state) // Set enabled_state property
             .build()
             .expect("Failed to create ServiceObject")
     }
