@@ -103,7 +103,7 @@ pub fn start_service(service_name: &str) -> Result<(), dbus::Error> {
         "/org/freedesktop/systemd1",
         Duration::from_secs(5),
     );
-    match proxy.method_call(
+    match proxy.method_call::<(dbus::Path<'static>,), _, _, _>(
         "org.freedesktop.systemd1.Manager",
         "StartUnit",
         (service_name, "replace"),
@@ -127,7 +127,7 @@ pub fn stop_service(service_name: &str) -> Result<(), dbus::Error> {
         "/org/freedesktop/systemd1",
         Duration::from_secs(5),
     );
-    match proxy.method_call(
+    match proxy.method_call::<(dbus::Path<'static>,), _, _, _>(
         "org.freedesktop.systemd1.Manager",
         "StopUnit",
         (service_name, "replace"),
@@ -152,7 +152,7 @@ pub fn enable_service(service_name: &str) -> Result<(), dbus::Error> {
         Duration::from_secs(5),
     );
     // Parameters: Vec<String> (unit files), bool (runtime), bool (force)
-    match proxy.method_call(
+    match proxy.method_call::<(bool, Vec<(String, String, String)>), _, _, _>(
         "org.freedesktop.systemd1.Manager",
         "EnableUnitFiles",
         (vec![service_name.to_string()], false, true),
@@ -177,7 +177,7 @@ pub fn disable_service(service_name: &str) -> Result<(), dbus::Error> {
         Duration::from_secs(5),
     );
     // Parameters: Vec<String> (unit files), bool (runtime)
-    match proxy.method_call(
+    match proxy.method_call::<(Vec<(String, String, String)>), _, _, _>(
         "org.freedesktop.systemd1.Manager",
         "DisableUnitFiles",
         (vec![service_name.to_string()], false),

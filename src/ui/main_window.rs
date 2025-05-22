@@ -306,7 +306,7 @@ impl MainWindow {
                         Ok(_) => {
                             println!("Successfully stopped {}", service_name_clone_start_stop);
                             loading_label_refresh_start_stop.set_visible(true);
-                            model_refresh_start_stop.clear();
+                            model_refresh_start_stop.remove_all();
                             let model_clone_inner = model_refresh_start_stop.clone();
                             let loading_label_clone_inner = loading_label_refresh_start_stop.clone();
                             systemctl::get_services_async(move |services| {
@@ -324,7 +324,7 @@ impl MainWindow {
                         Ok(_) => {
                             println!("Successfully started {}", service_name_clone_start_stop);
                             loading_label_refresh_start_stop.set_visible(true);
-                            model_refresh_start_stop.clear();
+                            model_refresh_start_stop.remove_all();
                             let model_clone_inner = model_refresh_start_stop.clone();
                             let loading_label_clone_inner = loading_label_refresh_start_stop.clone();
                             systemctl::get_services_async(move |services| {
@@ -352,7 +352,7 @@ impl MainWindow {
                         Ok(_) => {
                             println!("Successfully disabled {}", service_name_clone_enable_disable);
                             loading_label_refresh_enable_disable.set_visible(true);
-                            model_refresh_enable_disable.clear();
+                            model_refresh_enable_disable.remove_all();
                             let model_clone_inner = model_refresh_enable_disable.clone();
                             let loading_label_clone_inner = loading_label_refresh_enable_disable.clone();
                             systemctl::get_services_async(move |services| {
@@ -370,7 +370,7 @@ impl MainWindow {
                         Ok(_) => {
                             println!("Successfully enabled {}", service_name_clone_enable_disable);
                             loading_label_refresh_enable_disable.set_visible(true);
-                            model_refresh_enable_disable.clear();
+                            model_refresh_enable_disable.remove_all();
                             let model_clone_inner = model_refresh_enable_disable.clone();
                             let loading_label_clone_inner = loading_label_refresh_enable_disable.clone();
                             systemctl::get_services_async(move |services| {
